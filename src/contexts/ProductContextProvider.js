@@ -36,11 +36,42 @@ const ProductContextProvider = ({ children }) => {
         });
     };
 
+    const addProduct = async (newProduct) => {
+        await axios.post(JSON_API_PRODUCTS, newProduct);
+        getProducts();
+    };
+
+    const getProductDetails = async (id) => {
+        dispatch({
+            type: ACTIONS.GET_PRODUCT_DETAILS,
+            payload: null
+        });
+        const { data } = await axios(`${JSON_API_PRODUCTS}/${id}`);
+        dispatch({
+            type: ACTIONS.GET_PRODUCT_DETAILS,
+            payload: data
+        });
+    };
+
+    const saveEditedProduct = async (newProduct) => {
+        await axios.patch(`${JSON_API_PRODUCTS}/${newProduct.id}`, newProduct);
+        getProducts();
+    };
+
+    const deleteProduct = async (id) => {
+        await axios.delete(`${JSON_API_PRODUCTS}/${id}`);
+        getProducts();
+    };
+
     const values = {
         products: state.products,
         productDetails: state.productDetails,
 
-        getProducts
+        getProducts,
+        addProduct,
+        getProductDetails,
+        saveEditedProduct,
+        deleteProduct
     };
 
   return (
