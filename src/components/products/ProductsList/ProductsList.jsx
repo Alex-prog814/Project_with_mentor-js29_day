@@ -3,9 +3,8 @@ import { useProducts } from '../../../contexts/ProductContextProvider';
 import ProductCard from '../ProductCard/ProductCard';
 import Pagination from '@mui/material/Pagination';
 
-const ProductsList = () =>  {
+const ProductsList = ({ changeSideBarStatus, page, setPage }) =>  {
   const { products, getProducts } = useProducts();
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     getProducts();
@@ -26,8 +25,9 @@ const ProductsList = () =>  {
   };
 
   return (
-    <>
+    <div>
       <h3>Products List</h3>
+      <button onClick={changeSideBarStatus}>Filter&Search Menu</button>
       {products ? (
         currentData().map(item => (
           <ProductCard key={item.id} item={item} />
@@ -36,7 +36,7 @@ const ProductsList = () =>  {
         <h3>Loading...</h3>
       )}
       <Pagination count={count} page={page} onChange={handlePage} />
-    </>
+    </div>
   )
 }
 
