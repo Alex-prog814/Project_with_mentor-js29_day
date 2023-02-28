@@ -16,6 +16,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContextProvider';
+import Badge from '@mui/material/Badge';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useCart } from '../../contexts/CartContextProvider';
 
 const pages = [
   {
@@ -25,10 +28,6 @@ const pages = [
   {
     type: 'Admin',
     path: '/admin'
-  },
-  {
-    type: 'Cart',
-    path: '/cart'
   }
 ];
 const settings = [
@@ -73,6 +72,7 @@ function ResponsiveAppBar() {
   // custom
   const navigate = useNavigate();
   const { logout, user, checkAuth } = useAuth();
+  const { cartLength } = useCart();
 
   React.useEffect(() => {
     if(localStorage.getItem('token')) {
@@ -170,6 +170,11 @@ function ResponsiveAppBar() {
                   {page.type}
                 </Button>
               ))}
+              <IconButton size="large" color="inherit" onClick={() => navigate('/cart')}>
+                <Badge badgeContent={cartLength} color="error">
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
+              </IconButton>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
